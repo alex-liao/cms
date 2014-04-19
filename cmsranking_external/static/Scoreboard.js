@@ -150,7 +150,7 @@ var Scoreboard = new function () {
         // See the comment in .make_cols() for the reason we use colspans.
         var result = " \
 <tr> \
-    <th colspan=\"10\" class=\"f_name\">Team</th>";
+    <th colspan=\"10\" class=\"f_name\"> </th>";
 
         var contests = DataStore.contest_list;
         for (var i in contests) {
@@ -243,8 +243,8 @@ var Scoreboard = new function () {
             }
         }
         var result = " \
-        	<tr class=\"user\" data-user=\"" + user["key"] + "\"> \
-        	    <td colspan=\"10\" class=\"l_name\">" + user["f_name"] + "</td>";
+        	<tr class=\"user\" data-user=\"0\"> \
+        	    <td colspan=\"10\" class=\"l_name\">Number of team solved quiz</td>";
 
         	        var contests = DataStore.contest_list;
         	        for (var i in contests) {
