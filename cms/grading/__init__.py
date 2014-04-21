@@ -131,7 +131,9 @@ def get_compilation_commands(language, source_filenames, executable_filename,
         mv_command = ["/bin/mv", source_filenames[0], "%s.java" % class_name]
         gcj_command = ["/usr/bin/gcj", "--main=%s" % class_name, "-O3", "-o",
                        executable_filename, "%s.java" % class_name]
-        commands.append(mv_command)
+        if(len(source_filenames) > 1):
+			gcj_command += source_filenames[1:]
+		commands.append(mv_command)
         commands.append(gcj_command)
     else:
         raise ValueError("Unknown language %s." % language)
