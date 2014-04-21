@@ -45,61 +45,67 @@ class Sum(ScoreTypeAlone):
 {% from cms.server import format_size %}
 
 {% for tc in details %}
-    <b>Outcome: </b>
     {% if "outcome" in tc and "text" in tc %}
-    {{ _(tc["outcome"]) }}
+        <b>Outcome: </b>
+        {% if "outcome" in tc and "text" in tc %}
+        {{ _(tc["outcome"]) }}
+        {% else %}
+        N/A
+        {% end %}
+        <br>
+        
+        <b>Details: </b>
+        {% if tc["text"] is not None %}
+        {{ format_status_text(tc["text"], _) }}
+        {% else %}
+        N/A
+        {% end %}
+        <br>
+        
+        <b>Execution Time: </b> 
+        {% if tc["time"] is not None %}
+        {{ _("%(seconds)0.3f s") % {'seconds': tc["time"]} }}
+        {% else %}
+        N/A
+        {% end %}
+        <br>
+        
+        <b>Memory Used: </b> 
+        {% if tc["memory"] is not None %}
+        {{ format_size(tc["memory"]) }}
+        {% else %}
+        N/A
+        {% end %}
+        <br>
+        {% if "debugflag" in tc %}
+            {% if "correct_score" in tc %}
+            <b>Correction Score: </b> 
+            {{ tc["correct_score"] }}
+            <br>
+            {% end %}
+            
+            {% if "submission_score" in tc %}
+            <b>Submission Score: </b> 
+            {{ tc["submission_score"] }}
+            <br>
+            {% end %}
+            
+            {% if "execution_score" in tc %}
+            <b>Execution Score: </b> 
+            {{ tc["execution_score"] }}
+            <br>
+            {% end %}
+            
+            
+            {% if "estimation_score" in tc %}
+            <b>Estimation Score for this submission: </b> 
+            {{ tc["estimation_score"] }}
+            <br>
+            {% end %}
+        {% end %}    
     {% else %}
-    N/A
-    {% end %}
-    <br>
-    
-    <b>Details: </b>
-    {% if tc["text"] is not None %}
-    {{ format_status_text(tc["text"], _) }}
-    {% else %}
-    N/A
-    {% end %}
-    <br>
-    
-    <b>Execution Time: </b> 
-    {% if tc["time"] is not None %}
-    {{ _("%(seconds)0.3f s") % {'seconds': tc["time"]} }}
-    {% else %}
-    N/A
-    {% end %}
-    <br>
-    
-    <b>Memory Used: </b> 
-    {% if tc["memory"] is not None %}
-    {{ format_size(tc["memory"]) }}
-    {% else %}
-    N/A
-    {% end %}
-    <br>
-    
-    {% if "correct_score" in tc %}
-    <b>Correction Score: </b> 
-    {{ tc["correct_score"] }}
-    <br>
-    {% end %}
-    
-    {% if "submission_score" in tc %}
-    <b>Submission Score: </b> 
-    {{ tc["submission_score"] }}
-    <br>
-    {% end %}
-    
-    {% if "execution_score" in tc %}
-    <b>Execution Score: </b> 
-    {{ tc["execution_score"] }}
-    <br>
-    {% end %}
-    
-    
-    {% if "estimation_score" in tc %}
-    <b>Estimation Score for this submission: </b> 
-    {{ tc["estimation_score"] }}
-    <br>
+        {{ _("N/A") }}
+        <br>
     {% end %}
     
     
@@ -151,6 +157,8 @@ class Sum(ScoreTypeAlone):
             this_score += submission_score * float(evaluations[idx].outcome)
             execution_score = 0.1 * (1 - evaluations[idx].execution_time / this_task.active_dataset.time_limit);
             this_score += execution_score * float(evaluations[idx].outcome)
+            
+            this_score *= self.parameters
             
             tc_outcome = self.get_public_outcome(this_score)
             score += this_score
