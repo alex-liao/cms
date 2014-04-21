@@ -43,51 +43,68 @@ class Sum(ScoreTypeAlone):
     TEMPLATE = """\
 {% from cms.grading import format_status_text %}
 {% from cms.server import format_size %}
-<table class="testcase-list">
-    <thead>
-        <tr>
-            <th>{{ _("Outcome") }}</th>
-            <th>{{ _("Details") }}</th>
-            <th>{{ _("Execution time") }}</th>
-            <th>{{ _("Memory used") }}</th>
-        </tr>
-    </thead>
-    <tbody>
-    {% for tc in details %}
-        {% if "outcome" in tc and "text" in tc %}
-            {% if tc["outcome"] == "Correct" %}
-        <tr class="correct">
-            {% elif tc["outcome"] == "Not correct" %}
-        <tr class="notcorrect">
-            {% else %}
-        <tr class="partiallycorrect">
-            {% end %}
-            <td>{{ _(tc["outcome"]) }}</td>
-            <td>{{ format_status_text(tc["text"], _) }}</td>
-            <td>
-            {% if tc["time"] is not None %}
-                {{ _("%(seconds)0.3f s") % {'seconds': tc["time"]} }}
-            {% else %}
-                {{ _("N/A") }}
-            {% end %}
-            </td>
-            <td>
-            {% if tc["memory"] is not None %}
-                {{ format_size(tc["memory"]) }}
-            {% else %}
-                {{ _("N/A") }}
-            {% end %}
-            </td>
-        {% else %}
-        <tr class="undefined">
-            <td colspan="4">
-                {{ _("N/A") }}
-            </td>
-        </tr>
-        {% end %}
+
+{% for tc in details %}
+    <b>Outcome: </b>
+    {% if "outcome" in tc and "text" in tc %}
+    {{ _(tc["outcome"]) }}
+    {% else %}
+    N/A
     {% end %}
-    </tbody>
-</table>"""
+    <br>
+    
+    <b>Details: </b>
+    {% if tc["text"] is not None %}
+    {{ format_status_text(tc["text"], _) }}
+    {% else %}
+    N/A
+    {% end %}
+    <br>
+    
+    <b>Execution Time: </b> 
+    {% if tc["time"] is not None %}
+    {{ _("%(seconds)0.3f s") % {'seconds': tc["time"]} }}
+    {% else %}
+    N/A
+    {% end %}
+    <br>
+    
+    <b>Memory Used: </b> 
+    {% if tc["memory"] is not None %}
+    {{ format_size(tc["memory"]) }}
+    {% else %}
+    N/A
+    {% end %}
+    <br>
+    
+    {% if "correct_score" in tc %}
+    <b>Correction Score: </b> 
+    {{ tc["correct_score"] }}
+    <br>
+    {% end %}
+    
+    {% if "submission_score" in tc %}
+    <b>Submission Score: </b> 
+    {{ tc["submission_score"] }}
+    <br>
+    {% end %}
+    
+    {% if "execution_score" in tc %}
+    <b>Execution Score: </b> 
+    {{ tc["execution_score"] }}
+    <br>
+    {% end %}
+    
+    
+    {% if "estimation_score" in tc %}
+    <b>Estimation Score for this submission: </b> 
+    {{ tc["estimation_score"] }}
+    <br>
+    {% end %}
+    
+    
+    
+{% end %}"""
 
     def max_scores(self):
         """Compute the maximum score of a submission.
@@ -121,17 +138,33 @@ class Sum(ScoreTypeAlone):
         public_testcases = []
         score = 0.0
         public_score = 0.0
-
+        
+        this_submission = submission_result.submission
+        this_task = this_submission.task
+        this_contest = this_task.contest
+        
         for idx in indices:
-            this_score = float(evaluations[idx].outcome) * self.parameters
+            correct_score = float(evaluations[idx].outcome) * 0.6
+            this_score = correct_score;
+            
+            submission_score = 0.3 * (1 - (this_submission.timestamp - this_contest.start).total_seconds() / (this_contest.stop - this_contest.start).total_seconds())
+            this_score += submission_score * float(evaluations[idx].outcome)
+            execution_score = 0.1 * (1 - evaluations[idx].execution_time / this_task.active_dataset.time_limit);
+            this_score += execution_score * float(evaluations[idx].outcome)
+            
             tc_outcome = self.get_public_outcome(this_score)
             score += this_score
             testcases.append({
                 "idx": idx,
                 "outcome": tc_outcome,
-                "text": evaluations[idx].text,
+                "text": evaluations[idx].text ,
                 "time": evaluations[idx].execution_time,
                 "memory": evaluations[idx].execution_memory,
+                "correct_score": correct_score,
+                "submission_score": submission_score,
+                "execution_score": execution_score,
+                "estimation_score": this_score,
+                
                 })
             if self.public_testcases[idx]:
                 public_score += this_score
@@ -151,9 +184,15 @@ class Sum(ScoreTypeAlone):
         return (float): the public output.
 
         """
-        if outcome <= 0.0:
+        if outcome < 0.6:
             return N_("Not correct")
-        elif outcome >= self.parameters:
+        else:
+            return N_("Correct")
+        
+        """if outcome <= 0.0:
+            return N_("Not correct")
+        elif outcome >= 0.6:
             return N_("Correct")
         else:
             return N_("Partially correct")
+        """
