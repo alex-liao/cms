@@ -24,10 +24,16 @@ if (!("EventSource" in window)) {
         <title>Ranking</title>
     </head>
     <body>
-        <div id="OuterFrame">
-            <div id="LogoPanel">
-                <img src="logo" />
-            </div>
+        <div class="header">
+	  <div class="tm-container">
+	    <img src="img/img_logo.png">
+	    <div class="campaign">
+		Trend Micro Codinsanity 2014<br>
+		<span>Asia Pacific Programming Contest</span>
+	    </div>
+	  </div>
+	</div>
+	<div id="OuterFrame">
             <div id="UpperPanel">
                 <div id="ConnectionStatus_box">
                     <div id="ConnectionStatus_label">Status</div>
@@ -44,14 +50,14 @@ if (!("EventSource" in window)) {
                 </div>
             </div>
             <div id="InnerFrame">
-                <table id="Quizboard">
-                    <colgroup id="Quizboard_cols"></colgroup>
+                <table class="table" id="Quizboard">
+                   <!-- <colgroup id="Quizboard_cols"></colgroup>-->
                     <thead id="Quizboard_head"></thead>
                     <tbody id="Quizboard_body"></tbody>
                 </table>
             </div>
             <div id="InnerFrame">
-                <table id="Scoreboard">
+                <table class="table" id="Scoreboard">
                     <colgroup id="Scoreboard_cols"></colgroup>
                     <thead id="Scoreboard_head"></thead>
                     <tbody id="Scoreboard_body"></tbody>
