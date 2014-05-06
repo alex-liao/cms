@@ -64,6 +64,11 @@ def do_setup():
             os.path.join("static", "lib", "*.*"),
             os.path.join("static", "*.*"),
         ],
+        "cmsranking_external": [
+            os.path.join("static", "img", "*.*"),
+            os.path.join("static", "lib", "*.*"),
+            os.path.join("static", "*.*"),
+        ],
         "cmstestsuite": [
             os.path.join("code", "*.*"),
             os.path.join("tasks", "batch_stdio", "data", "*.*"),
@@ -101,6 +106,7 @@ def do_setup():
                     "cms.grading.tasktypes",
                     "cmscommon",
                     "cmsranking",
+                    "cmsranking_external",
                     "cmscontrib",
                     "cmscontrib.updaters",
                     "cmstaskenv",
@@ -124,6 +130,7 @@ def do_setup():
                    "scripts/cmsProxyService",
 
                    "scripts/cmsRankingWebServer",
+                   "scripts/cmsRankingWebServer-External",
 
                    "scripts/cmsInitDB",
                    "scripts/cmsDropDB"],
