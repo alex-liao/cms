@@ -955,3 +955,39 @@ td.token_rules p:last-child {
     margin: 0 auto 12px;
 }
 
+.header {
+   background-color: #ffe5e8;
+   position: relative;
+   height: 210px;
+   font-family: "Arial" ,"微軟正黑體" , "Microsoft JhengHei" , "蘋果儷中黑" , "Apple LiGothic Medium" , "新細明體" , "PMingLiU" , "細明體" , "MingLiU" , "標楷體" , "DFKai-sb" , serif;
+}
+
+.header .tm-container {
+  height: 210px;
+  background: url('./img/img_keyimg.png') no-repeat top right;
+}
+
+.header img {
+  margin: 20px 0 0 20px;
+}
+
+.header .campaign {
+  color: #222;
+  font-size: 34px;
+  line-height: 36px;
+  margin: 20px 0 0 58px;
+}
+
+.header .campaign span{ 
+  color: #666;
+  font-size: 27px;
+}
+
+div.login_box {
+  margin-top: 0px;
+}
+
+div.login_container {
+  position: relative;
+  padding: 300px 0 0 0;
+}

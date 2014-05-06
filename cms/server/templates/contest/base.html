@@ -47,7 +47,16 @@ $(document).ready(function () {
     </head>
     <body id="body">
         <div id="navigation_bar" class="navbar navbar-fixed-top">
-            <div class="navbar-inner">
+             <div class="header">
+		<div class="tm-container">
+			<img src="{{ url_root }}/static/img/img_logo.png">
+			<div class="campaign">
+					Trend Micro Codinsanity 2014<br>
+					<span>Asia Pacific Programming Contest</span>
+			</div>
+		</div>
+	    </div>
+	    <div class="navbar-inner">
                 <div class="container">
                     <a class="brand" href="{{ url_root }}/">{{ contest.description }}</a>
 {% if current_user is not None %}
@@ -123,7 +132,7 @@ $(document).ready(function () {
         </div>
         <!-- End -->
         <div id="main" class="container">
-            <div class="row">
+           <div class="row">
                 <div class="span3">
                     <h3 id="server_time_box">
                         <span id="server_time_label">{{ _("Server time:") }}</span>
