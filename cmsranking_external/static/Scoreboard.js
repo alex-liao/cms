@@ -296,6 +296,7 @@ var Scoreboard = new function () {
 
 
     self.get_score_class = function (score, max_score) {
+	return "";
         if (score <= 0) {
             return "score_0";
         } else if (score >= max_score) {
