@@ -39,6 +39,7 @@ class Config(object):
         # Connection.
         self.bind_address = ''
         self.http_port = 8890
+        self.redirect_url = None
         self.https_port = None
         self.https_certfile = None
         self.https_keyfile = None

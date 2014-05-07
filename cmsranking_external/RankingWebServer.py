@@ -320,7 +320,8 @@ def ScoreHandler(request, response):
     for u_id, tasks in Scoring.store._scores.iteritems():
         for t_id, score in tasks.iteritems():
             if score.get_score() > 0.0:
-                result.setdefault(u_id, dict())[t_id] = score.get_score()
+                #result.setdefault(u_id, dict())[t_id] = score.get_score()
+                result.setdefault(u_id, dict())[t_id] = 1
 
     response.status_code = 200
     response.headers[b'Timestamp'] = b"%0.6f" % time.time()
@@ -400,7 +401,10 @@ class RoutingHandler(object):
 
         self.event_handler = event_handler
         self.logo_handler = logo_handler
-        self.root_handler = redirect("Ranking.html")
+        if config.redirect_url is not None:
+            self.root_handler = redirect(config.redirect_url + "Ranking.html")
+        else:
+            self.root_handler = redirect("Ranking.html")
 
     def __call__(self, environ, start_response):
         return self.wsgi_app(environ, start_response)
