@@ -244,7 +244,7 @@ var Scoreboard = new function () {
         }
         var result = " \
         	<tr class=\"user\" data-user=\"0\"> \
-        	    <td colspan=\"10\" class=\"l_name\">Number of team solved quiz</td>";
+        	    <td colspan=\"10\" class=\"l_name\">Number of completed teams</td>";
 
         	        var contests = DataStore.contest_list;
         	        for (var i in contests) {
