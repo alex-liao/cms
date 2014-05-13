@@ -399,7 +399,7 @@ td.token_rules p:last-child {
     right: 0;
     bottom: 0;
     overflow: visible;
-    z-index: 1;
+    z-index: 1040;
 }
 
 .notifications .notification {
