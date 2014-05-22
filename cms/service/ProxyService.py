@@ -63,6 +63,17 @@ def encode_id(entity_id):
             encoded_id += unicode(char)
     return encoded_id
 
+def encode_userid(entity_id):
+    """Encode the username with md5.
+
+    entity_id (unicode): the entity id to encode.
+    return (unicode): encoded entity id.
+
+    """
+    import hashlib
+    m = hashlib.md5()
+    m.update(entity_id.encode('utf-8'))
+    return m.hexdigest()    
 
 def safe_put_data(ranking, resource, data, operation):
     """Send some data to ranking using a PUT request.
@@ -340,7 +351,7 @@ class ProxyService(Service):
 
             for user in contest.users:
                 if not user.hidden:
-                    users[encode_id(user.username)] = \
+                    users[encode_userid(user.username)] = \
                         {"f_name": user.first_name,
                          "l_name": user.last_name,
                          "team": None}
@@ -376,7 +387,7 @@ class ProxyService(Service):
         # Data to send to remote rankings.
         submission_id = str(submission.id)
         submission_data = {
-            "user": encode_id(submission.user.username),
+            "user": encode_userid(submission.user.username),
             "task": encode_id(submission.task.name),
             "time": int(make_timestamp(submission.timestamp))}
 
@@ -412,7 +423,7 @@ class ProxyService(Service):
         # Data to send to remote rankings.
         submission_id = str(submission.id)
         submission_data = {
-            "user": encode_id(submission.user.username),
+            "user": encode_userid(submission.user.username),
             "task": encode_id(submission.task.name),
             "time": int(make_timestamp(submission.timestamp))}
 
