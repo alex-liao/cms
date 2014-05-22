@@ -84,6 +84,8 @@ class Subchange(Entity):
         self.submission = data['submission']
         self.time = data['time']
         self.score = (data['score'] if 'score' in data else None)
+        if self.score > 0:
+            self.score = 1.00;
         self.token = (data['token'] if 'token' in data else None)
         self.extra = (data['extra'] if 'extra' in data else None)
 

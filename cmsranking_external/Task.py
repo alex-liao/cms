@@ -94,7 +94,8 @@ class Task(Entity):
         self.name = data['name']
         self.short_name = data['short_name']
         self.contest = data['contest']
-        self.max_score = data['max_score']
+        #self.max_score = data['max_score']
+        self.max_score = 1.00
         self.score_precision = data['score_precision']
         self.extra_headers = data['extra_headers']
         self.order = data['order']

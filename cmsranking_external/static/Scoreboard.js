@@ -258,7 +258,7 @@ var Scoreboard = new function () {
 
         	                var score_class = self.get_score_class(user["t_" + t_id], task["max_score"]);
         	                result += " \
-        	    <td colspan=\"10\" class=\"score task " + score_class + "\" data-task=\"" + t_id + "\" data-sort_key=\"t_" + t_id + "\">" + round_to_str(user["t_" + t_id], task["score_precision"]) + "</td>";
+        	    <td colspan=\"10\" class=\"score task " + score_class + "\" data-task=\"" + t_id + "\" data-sort_key=\"t_" + t_id + "\">" + round_to_str(quiz["t_" + t_id], task["score_precision"]) + "</td>";
         	            }
         	        }
 
