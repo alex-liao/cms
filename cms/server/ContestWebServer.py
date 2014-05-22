@@ -483,9 +483,16 @@ class LoginHandler(BaseHandler):
 
         filtered_user = filter_ascii(username)
         filtered_pass = filter_ascii(password)
-        if user is None or user.password != password:
-            logger.info("Login error: user=%s pass=%s remote_ip=%s." %
-                        (filtered_user, filtered_pass, self.request.remote_ip))
+
+        import hashlib, base64
+        m = hashlib.sha512()
+        m.update(password)
+        sha = m.digest()
+        encoded = base64.b64encode(sha)
+
+        if user is None or (user.password != password and user.password != encoded):
+            logger.info("Login error: user=%s pass=%s(%s) remote_ip=%s." %
+                        (filtered_user, filtered_pass, encoded, self.request.remote_ip))
             self.redirect("/?login_error=true")
             return
         if config.ip_lock and user.ip is not None \
