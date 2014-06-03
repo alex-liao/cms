@@ -153,9 +153,9 @@ class Sum(ScoreTypeAlone):
             correct_score = float(evaluations[idx].outcome) * 0.6
             this_score = correct_score;
             
-            submission_score = 0.1 * (1 - (this_submission.timestamp - this_contest.start).total_seconds() / (this_contest.stop - this_contest.start).total_seconds())
+            submission_score = 0.3 * (1 - (this_submission.timestamp - this_contest.start).total_seconds() / (this_contest.stop - this_contest.start).total_seconds())
             this_score += submission_score * float(evaluations[idx].outcome)
-            execution_score = 0.3 * (1 - evaluations[idx].execution_time / this_task.active_dataset.time_limit);
+            execution_score = 0.1 * (1 - evaluations[idx].execution_time / this_task.active_dataset.time_limit);
             this_score += execution_score * float(evaluations[idx].outcome)
             
             this_score *= self.parameters
