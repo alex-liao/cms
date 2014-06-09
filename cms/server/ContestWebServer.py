@@ -118,6 +118,7 @@ class BaseHandler(CommonRequestHandler):
         self.timestamp = make_datetime()
 
         self.set_header("Cache-Control", "no-cache, must-revalidate")
+        self.set_header("X-Frame-Options", "SAMEORIGIN")
 
         self.sql_session = Session()
         self.contest = Contest.get_from_id(self.application.service.contest,
