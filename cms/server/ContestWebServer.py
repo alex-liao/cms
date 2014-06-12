@@ -474,7 +474,7 @@ class LoginHandler(BaseHandler):
 
     """
     def post(self):
-        username = self.get_argument("username", "")
+        username = self.get_argument("username", "").lower()
         password = self.get_argument("password", "")
         next_page = self.get_argument("next", "/")
         user = self.sql_session.query(User)\
@@ -490,7 +490,7 @@ class LoginHandler(BaseHandler):
         sha = m.digest()
         encoded = base64.b64encode(sha)
 
-        if user is None or (user.password != password and user.password != encoded):
+        if user is None or user.password != encoded:
             logger.info("Login error: user=%s pass=%s(%s) remote_ip=%s." %
                         (filtered_user, filtered_pass, encoded, self.request.remote_ip))
             self.redirect("/?login_error=true")
