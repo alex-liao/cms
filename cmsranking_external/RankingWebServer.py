@@ -69,6 +69,7 @@ class CustomUnauthorized(Unauthorized):
         # returned: there is no need for this.
         response = Response.force_type(response)
         response.www_authenticate.set_basic(config.realm_name)
+        response.headers[b'X-Frame-Options'] = b'SAMEORIGIN'
         return response
 
 
@@ -100,6 +101,7 @@ class StoreHandler(object):
         request.encoding_errors = "strict"
 
         response = Response()
+        response.headers[b'X-Frame-Options'] = b'SAMEORIGIN'
 
         try:
             if endpoint == "get":
@@ -298,6 +300,7 @@ def SubListHandler(request, response, user_id):
 
     response.status_code = 200
     response.mimetype = "application/json"
+    response.headers[b'X-Frame-Options'] = b'SAMEORIGIN'
     response.data = json.dumps(result)
 
 
@@ -310,6 +313,7 @@ def HistoryHandler(request, response):
     response.status_code = 200
     response.mimetype = "application/json"
     response.data = json.dumps(result)
+    response.headers[b'X-Frame-Options'] = b'SAMEORIGIN'
 
 
 def ScoreHandler(request, response):
@@ -327,6 +331,7 @@ def ScoreHandler(request, response):
     response.headers[b'Timestamp'] = b"%0.6f" % time.time()
     response.mimetype = "application/json"
     response.data = json.dumps(result)
+    response.headers[b'X-Frame-Options'] = b'SAMEORIGIN'
 
 
 class ImageHandler(object):
@@ -364,7 +369,6 @@ class ImageHandler(object):
         request.encoding_errors = "strict"
 
         response = Response()
-
         available = list()
         for extension, mimetype in self.EXT_TO_MIME.iteritems():
             if os.path.isfile(location + '.' + extension):
@@ -386,6 +390,7 @@ class ImageHandler(object):
 
         response.response = wrap_file(environ, io.open(path, 'rb'))
         response.direct_passthrough = True
+        response.headers[b'X-Frame-Options'] = b'SAMEORIGIN'
 
         return response
 
@@ -405,6 +410,7 @@ class RoutingHandler(object):
             self.root_handler = redirect(config.redirect_url + "Ranking.html")
         else:
             self.root_handler = redirect("Ranking.html")
+        self.root_handler.headers[b'X-Frame-Options'] = b'SAMEORIGIN'
 
     def __call__(self, environ, start_response):
         return self.wsgi_app(environ, start_response)

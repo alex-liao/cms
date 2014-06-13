@@ -34,6 +34,12 @@ if (!window.console.warn) {
 if (!window.console.error) {
     window.console.error = function () {};
 }
+var isInIframe = (parent !== window);
+if(isInIframe == true)
+{
+    alert('IFrame detected.');
+    location.href="about:blank";
+}
 
 $(document).ready(function() {
     DataStore.init(function(){

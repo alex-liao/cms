@@ -193,7 +193,7 @@ class BaseHandler(CommonRequestHandler):
         # Attempt to update the contest and all its references
         # If this fails, the request terminates.
         self.set_header("Cache-Control", "no-cache, must-revalidate")
-
+        self.set_header("X-Frame-Options", "SAMEORIGIN")
         self.sql_session = Session()
         self.sql_session.expire_all()
         self.contest = None
@@ -1799,6 +1799,7 @@ class NotificationsHandler(BaseHandler):
 
     """
     def get(self):
+        self.set_header("Content-Type", "application/json")
         res = []
         last_notification = make_datetime(
             float(self.get_argument("last_notification", "0")))
