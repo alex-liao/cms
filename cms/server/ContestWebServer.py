@@ -176,7 +176,7 @@ class BaseHandler(CommonRequestHandler):
                                    pickle.dumps((user.username,
                                                  user.password,
                                                  make_timestamp())),
-                                   expires_days=None)
+                                   expires_days=None )
 
         return user
 
