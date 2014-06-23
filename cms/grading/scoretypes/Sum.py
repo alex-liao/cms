@@ -150,6 +150,9 @@ class Sum(ScoreTypeAlone):
         this_contest = this_task.contest
         
         for idx in indices:
+            this_memory = evaluations[idx].execution_memory
+            if (this_submission.language == "java"):
+                this_memory = this_memory + 40*1024*1024
             correct_score = float(evaluations[idx].outcome) * 0.6
             this_score = correct_score;
             
@@ -167,7 +170,7 @@ class Sum(ScoreTypeAlone):
                 "outcome": tc_outcome,
                 "text": evaluations[idx].text ,
                 "time": evaluations[idx].execution_time,
-                "memory": evaluations[idx].execution_memory,
+                "memory": this_memory,
                 "correct_score": correct_score,
                 "submission_score": submission_score,
                 "execution_score": execution_score,
