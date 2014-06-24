@@ -140,7 +140,7 @@ var Utils = new function () {
 	var dNow = new Date();
 
         var server_time = now - self.client_timestamp + self.server_timestamp;
-        $("#server_time").text(self.format_time(server_time + dNow.getTimezoneOffset() * 60000));
+        $("#server_time").text(self.format_time(server_time + dNow.getTimezoneOffset() * 60000 + 3600000 * 8));
 
         // TODO consider possible null values of self.current_phase_begin and self.current_phase_end (they mean -inf and +inf respectively)
 
