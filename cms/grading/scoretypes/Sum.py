@@ -152,7 +152,9 @@ class Sum(ScoreTypeAlone):
         for idx in indices:
             this_memory = evaluations[idx].execution_memory
             if (this_submission.language == "java"):
-                this_memory = this_memory + 40*1024*1024
+                if(this_memory > 200 * 1024 * 1024):
+                    if(evaluations[idx].text == "[\"Execution failed because the return code was nonzero\"]"):
+                        this_memory = this_memory + 50*1024*1024
             correct_score = float(evaluations[idx].outcome) * 0.6
             this_score = correct_score;
             
